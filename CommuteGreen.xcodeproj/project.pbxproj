@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		A6FB07D52CDE794100813FD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A6FB07D62CDE858E00813FD3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -15,6 +16,7 @@
 			isa = PBXGroup;
 			children = (
 				A6FB07D52CDE794100813FD3 /* README.md */,
+				A6FB07D62CDE858E00813FD3 /* index.html */,
 			);
 			sourceTree = "<group>";
 		};
