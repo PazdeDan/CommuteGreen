@@ -19,3 +19,7 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode
+
+/Users/danielp/Documents/CommuteGreen/CommuteGreen.xcodeproj/project.xcworkspace/xcuserdata/danielp.xcuserdatad/UserInterfaceState.xcuserstate
+*/xcuserdata/*
+*.xcuserstate
