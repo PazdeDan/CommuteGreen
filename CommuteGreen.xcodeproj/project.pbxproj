@@ -24,6 +24,8 @@
 			children = (
 				A6FB07D52CDE794100813FD3 /* README.md */,
 				A6E5125A2D2860C500957165 /* index.htm */,
+				A6E512622D28911000957165 /* footer.htm */,
+				A6E512612D2890FA00957165 /* sidebar.htm */,
 				A6E5125C2D286C6200957165 /* header.htm */,
 				A6E512612D2890FA00957165 /* sidebar.htm */,
 				A6E512622D28911000957165 /* footer.htm */,
