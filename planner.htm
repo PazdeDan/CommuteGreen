@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Route Planner</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style type="text/css">
+            body {
+                font-family: Helvetica Neue, Helvetica, sans-serif;
+            }
+            form {
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-right: 10px;
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+            }
+            input, select, button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button {
+                background-color: green;
+                color: white;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #004000;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Route Planner</h1>
+        <form action="calculateRoute.htm" method="GET">
+            <label for="transportType">Transport Type:</label>
+            <select id="transportType" name="transportType">
+                <option value="car">Car</option>
+                <option value="publicTransit">Public Transit</option>
+                <option value="bicycle">Bicycle</option>
+                <option value="pedestrian">Pedestrian</option>
+            </select>
+            <label for="startLocation">Start Location:</label>
+            <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point">
+            <label for="endLocation">End Location:</label>
+            <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination">
+            
+            <!-- Add any additional fields required for the HERE API -->
+
+            <button type="submit">Calculate Route</button>
+        </form>
+    </body>
+</html>

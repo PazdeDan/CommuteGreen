@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		A6E512572D2834A700957165 /* index.html.old */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.html.old; sourceTree = "<group>"; };
+		A6E512592D2860C500957165 /* home.htm */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = home.htm; sourceTree = "<group>"; };
+		A6E5125A2D2860C500957165 /* index.htm */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.htm; sourceTree = "<group>"; };
+		A6E5125B2D2860C500957165 /* index.htm.old */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.htm.old; sourceTree = "<group>"; };
+		A6E5125C2D286C6200957165 /* header.htm */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = header.htm; sourceTree = "<group>"; };
+		A6E5125E2D287FCE00957165 /* planner.htm */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = planner.htm; sourceTree = "<group>"; };
 		A6FB07D52CDE794100813FD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		A6FB07D62CDE858E00813FD3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -17,8 +20,11 @@
 			isa = PBXGroup;
 			children = (
 				A6FB07D52CDE794100813FD3 /* README.md */,
-				A6FB07D62CDE858E00813FD3 /* index.html */,
-				A6E512572D2834A700957165 /* index.html.old */,
+				A6E512592D2860C500957165 /* home.htm */,
+				A6E5125A2D2860C500957165 /* index.htm */,
+				A6E5125C2D286C6200957165 /* header.htm */,
+				A6E5125E2D287FCE00957165 /* planner.htm */,
+				A6E5125B2D2860C500957165 /* index.htm.old */,
 			);
 			sourceTree = "<group>";
 		};
