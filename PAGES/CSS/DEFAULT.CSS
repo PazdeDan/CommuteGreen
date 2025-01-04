@@ -1,0 +1,83 @@
+body {
+    font-family: Helvetia Neue, Helvetica, sans-serif;
+    margin-right: 25%;
+}
+h1 {
+    font-size: 24px;
+}
+h2 {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: normal;
+}
+#navbar {
+    width: 100%;
+    background-color: green;
+    padding: 20px;
+    height: 84px;
+}
+td {
+    vertical-align: middle;
+}
+#left {
+    text-align: left;
+}
+#right {
+    text-align: right;
+}
+.nav {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.nav:hover {
+    text-decoration: underline;
+}
+form {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+label {
+    display: block;
+    margin-top: 10px;
+}
+input, select, #button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+#button {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+#button:hover {
+    background-color: #004000;
+}
+#results {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+#apiKeyPrompt {
+    display: none;
+    background-color: #ffbfbf;
+    padding: 10px;
+}
+#apiKey {
+    width: 50%;
+    margin-right: 10px;
+}
+#cookieWarning {
+    background-color: #ffffbf;
+    padding: 10px;
+    margin-top: 10px;
+    display: none;
+}
+#warning {
+    color: red;
+}

@@ -19,6 +19,9 @@
 		A6E5127C2D29E2A100957165 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = SOURCE_ROOT; };
 		A6E512802D29E4FE00957165 /* AVATAR.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = AVATAR.JPG; sourceTree = "<group>"; };
 		A6E512812D29E4FE00957165 /* COVER.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = COVER.JPG; sourceTree = "<group>"; };
+		A6E512842D29ED4C00957165 /* DEFAULT.CSS */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = DEFAULT.CSS; sourceTree = "<group>"; };
+		A6E512852D29ED8000957165 /* MOBILE.CSS */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = MOBILE.CSS; sourceTree = "<group>"; };
+		A6E512862D29ED9A00957165 /* ACCESS.CSS */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = ACCESS.CSS; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -33,6 +36,7 @@
 				A6E512782D29E28C00957165 /* JSHASHES.JS */,
 				A6E512792D29E28C00957165 /* PLANNER.HTM */,
 				A6E5127A2D29E28C00957165 /* SIDEBAR.HTM */,
+				A6E512832D29ECFA00957165 /* CSS */,
 				A6E512822D29E4FE00957165 /* MEDIA */,
 			);
 			path = PAGES;
@@ -45,6 +49,16 @@
 				A6E512812D29E4FE00957165 /* COVER.JPG */,
 			);
 			path = MEDIA;
+			sourceTree = "<group>";
+		};
+		A6E512832D29ECFA00957165 /* CSS */ = {
+			isa = PBXGroup;
+			children = (
+				A6E512842D29ED4C00957165 /* DEFAULT.CSS */,
+				A6E512852D29ED8000957165 /* MOBILE.CSS */,
+				A6E512862D29ED9A00957165 /* ACCESS.CSS */,
+			);
+			path = CSS;
 			sourceTree = "<group>";
 		};
 		A6FB07CC2CDE766800813FD3 = {
