@@ -3,8 +3,6 @@
     <head>
         <title>Route Planner</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style type="text/css">
             body {
                 font-family: Helvetica Neue, Helvetica, sans-serif;
@@ -12,8 +10,8 @@
             form {
                 padding: 10px;
                 border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                margin-right: 10px;
+                border: 1px solid #ccc;
+                margin-right: 25%;
             }
             label {
                 display: block;
@@ -26,9 +24,6 @@
                 border: 1px solid #ccc;
                 border-radius: 5px;
             }
-            input {
-                width: 75%
-            }
             #button {
                 background-color: green;
                 color: white;
@@ -37,6 +32,12 @@
             #button:hover {
                 background-color: #004000;
             }
+            #results {
+                margin-top: 20px;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
         </style>
     </head>
     <body>
@@ -44,49 +45,54 @@
         <form id="routeForm">
             <label for="transportType">Transport Type:</label>
             <select id="transportType" name="transportType">
-                <option value="car">Car</option>
-                <option value="publicTransit">Public Transit</option>
                 <option value="bicycle">Bicycle</option>
-                <option value="pedestrian">Pedestrian</option>
+                <option value="bus">Public Transit</option>
+                <option value="car">Car</option>
+                <option value="pedestrian">Walking</option>
+                <option value="scooter">Scooter</option>
+                <option value="taxi">Taxi</option>
+                <option value="truck">Truck</option>
             </select>
-            
             <label for="startLocation">Start Location:</label>
             <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point">
-            
             <label for="endLocation">End Location:</label>
             <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination">
-            
             <label for="departureTime">Departure Time:</label>
-            <input type="datetime-local" id="departureTime" name="departureTime">
-            
+            <input type="text" id="departureTime" name="departureTime" placeholder="YYYY-MM-DDTHH:MM">
             <label for="fuelType">Fuel Type:</label>
             <select id="fuelType" name="fuelType">
                 <option value="diesel">Diesel</option>
                 <option value="gasoline">Gasoline</option>
                 <option value="electric">Electric</option>
             </select>
-            
             <label for="traffic">Include Traffic:</label>
             <input type="checkbox" id="traffic" name="traffic">
-
             <input type="submit" id="button" value="Calculate Route">
         </form>
-
-        <script>
-            // Function to get a specific cookie by name
+        <div id="results">
+            <h2>Eco-Friendliness Results</h2>
+            <p id="ecoScore">Eco-Score: Results will appear here...</p>
+            <p id="distance">Distance: Results will appear here...</p>
+            <p id="duration">Duration: Results will appear here...</p>
+            <p id="co2Emission">CO2 Emissions: Results will appear here...</p>
+            <p id="fuelConsumption">Fuel Consumption: Results will appear here...</p>
+        </div>
+        <script type="text/javascript">
             function getCookie(name) {
                 var nameEQ = name + "=";
                 var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i].trim();
+                    var c = ca[i].replace(/^\s+|\s+$/g, "");
                     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
                 }
                 return null;
             }
-
+            function isValidDateTime(dateTime) {
+                var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+                return regex.test(dateTime);
+            }
             document.getElementById('routeForm').onsubmit = function(event) {
                 event.preventDefault();
-
                 var apiKey = getCookie('apiKey');
                 var startLocation = document.getElementById('startLocation').value;
                 var endLocation = document.getElementById('endLocation').value;
@@ -94,48 +100,84 @@
                 var fuelType = document.getElementById('fuelType').value;
                 var includeTraffic = document.getElementById('traffic').checked;
 
-                // Function to get geocode data
+                if (!isValidDateTime(departureTime)) {
+                    alert('Please enter a valid departure time in the format YYYY-MM-DDTHH:MM.');
+                    return;
+                }
                 function getGeocode(location, callback) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', 'https://geocode.search.hereapi.com/v1/geocode?q=' + encodeURIComponent(location) + '&apiKey=' + apiKey, true);
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4 && xhr.status == 200) {
-                            var data = JSON.parse(xhr.responseText);
+                            var data = eval('(' + xhr.responseText + ')');
                             callback(data.items[0].position);
                         }
                     };
                     xhr.send();
                 }
-
-                // Main function to get route and calculate fuel consumption and CO2 emissions
                 function getRoute() {
                     getGeocode(startLocation, function(startCoords) {
                         getGeocode(endLocation, function(endCoords) {
-                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&transportMode=' + document.getElementById('transportType').value + '&departureTime=' + departureTime + '&fuel[type]=' + fuelType + '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1';
-
-                            if (includeTraffic) {
-                                routeURL += '&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055';
-                            } else {
+                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&transportMode=' + document.getElementById('transportType').value + '&departureTime=' + departureTime + '&fuel[type]=' + fuelType + '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055';
+                            if (includeTraffic === false) {
                                 routeURL += '&traffic[mode]=disabled';
                             }
-
                             routeURL += '&apiKey=' + apiKey;
-
                             var xhr = new XMLHttpRequest();
                             xhr.open('GET', routeURL, true);
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
-                                    var routeData = JSON.parse(xhr.responseText);
-                                    console.log(routeData);
+                                    var routeData = eval('(' + xhr.responseText + ')');
+                                    var ecoScore = calculateEcoScore(routeData);
+                                    var distance = routeData.routes[0].sections[0].summary.length / 1000;
+                                    var duration = routeData.routes[0].sections[0].summary.duration / 60;
+                                    var co2Emission = routeData.routes[0].sections[0].summary.co2Emission;
+                                    var fuelConsumption = routeData.routes[0].sections[0].summary.consumption;
+
+                                    document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
+                                    document.getElementById('distance').innerText = 'Distance: ' + distance + ' km';
+                                    document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
+                                    document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
+                                    document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' liters';
                                 }
                             };
                             xhr.send();
                         });
                     });
                 }
-
                 getRoute();
             };
+            function calculateEcoScore(routeData) {
+                if (!routeData || !routeData.routes || !routeData.routes[0] || !routeData.routes[0].sections || !routeData.routes[0].sections[0] || !routeData.routes[0].sections[0].summary || !routeData.routes[0].sections[0].summary.length) {
+                    return "N/A";
+                }
+                var distance = routeData.routes[0].sections[0].summary.length / 1000;
+                var transportType = document.getElementById('transportType').value;
+                var fuelType = document.getElementById('fuelType').value;
+                var score = 100;
+                if (transportType === 'car' || transportType === 'taxi' || transportType === 'truck') {
+                    score -= 20;
+                } else if (transportType === 'bus' || transportType === 'scooter') {
+                    score -= 10;
+                } else if (transportType === 'bicycle' || transportType === 'pedestrian') {
+                    score += 10;
+                }
+                if (fuelType === 'diesel') {
+                    score -= 15;
+                } else if (fuelType === 'gasoline') {
+                    score -= 10;
+                } else if (fuelType === 'electric') {
+                    score += 10;
+                }
+                if (distance > 50) {
+                    score -= 20;
+                } else if (distance > 20) {
+                    score -= 10;
+                } else if (distance > 10) {
+                    score -= 5;
+                }
+                return score;
+            }
         </script>
     </body>
 </html>

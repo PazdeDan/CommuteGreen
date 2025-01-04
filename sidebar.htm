@@ -28,10 +28,11 @@
                 color: red;
             }
         </style>
+        <script type="text/javascript" src="JSHASHES.JS"></script>
         <script type="text/javascript">
             function getCookie(name) {
                 var nameEQ = name + "=";
-                var ca = document.cookie.split(';');
+                var ca = document.cookie.split(";");
                 for (var i = 0; i < ca.length; i++) {
                     var c = ca[i].trim();
                     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
@@ -45,46 +46,37 @@
                 document.cookie = name + "=" + value + expires + "; path=/";
             }
             function validateApiKey(inputKey, callback) {
-                var realKeyHash = 'EXPECTED_HASH_HERE'; // Replace with the real hash
-                var inputKeyHash = sha256(inputKey); // Simple hash function
+                var SHA256 = new Hashes.SHA256();
+                var realKeyHash = '163c2e98be468ca0aa21ffee3868ddc488847124e591c5ab6baf70761aaffdbd';
+                var inputKeyHash = SHA256.hex(inputKey);
                 callback(inputKeyHash === realKeyHash);
             }
-            function sha256(str) {
-                var hash = 0, i, chr;
-                if (str.length === 0) return hash;
-                for (i = 0; i < str.length; i++) {
-                    chr = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + chr;
-                    hash |= 0;
-                }
-                return hash.toString();
-            }
             function checkApiKey() {
-                var apiKey = getCookie('apiKey');
+                var apiKey = getCookie("apiKey");
                 if (apiKey) {
-                    document.getElementById('apiKeyPrompt').style.display = 'none';
+                    document.getElementById("apiKeyPrompt").style.display = "none";
                 } else {
-                    document.getElementById('apiKeyPrompt').style.display = 'block';
+                    document.getElementById("apiKeyPrompt").style.display = "block";
                 }
             }
             function submitApiKey() {
-                var inputKey = document.getElementById('apiKey').value;
+                var inputKey = document.getElementById("apiKey").value;
                 validateApiKey(inputKey, function(isValid) {
                     if (isValid) {
-                        setCookie('apiKey', inputKey, 7);
-                        document.getElementById('apiKeyPrompt').style.display = 'none';
-                        alert('API key saved successfully.');
+                        setCookie("apiKey", inputKey, 7);
+                        document.getElementById("apiKeyPrompt").style.display = "none";
+                        alert("API key saved successfully.");
                     } else {
-                        document.getElementById('warning').style.display = 'block';
+                        document.getElementById("warning").style.display = "block";
                     }
                 });
             }
             function checkCookiesEnabled() {
-                setCookie('testCookie', 'test', 1);
-                if (getCookie('testCookie')) {
+                setCookie("testCookie", "test", 1);
+                if (getCookie("testCookie")) {
                     document.cookie = "testCookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
                 } else {
-                    document.getElementById('cookieWarning').style.display = 'block';
+                    document.getElementById("cookieWarning").style.display = "block";
                 }
             }
             window.onload = function() {
