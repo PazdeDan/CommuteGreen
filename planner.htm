@@ -19,26 +19,29 @@
                 display: block;
                 margin-top: 10px;
             }
-            input, select, button {
+            input, select {
                 width: 100%;
                 padding: 10px;
                 margin-top: 5px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
             }
-            button {
+            input {
+                width: 75%
+            }
+            .button {
                 background-color: green;
                 color: white;
                 cursor: pointer;
             }
-            button:hover {
+            .button:hover {
                 background-color: #004000;
             }
         </style>
     </head>
     <body>
         <h1>Route Planner</h1>
-        <form action="calculateRoute.htm" method="GET">
+        <form id="routeForm">
             <label for="transportType">Transport Type:</label>
             <select id="transportType" name="transportType">
                 <option value="car">Car</option>
@@ -46,14 +49,93 @@
                 <option value="bicycle">Bicycle</option>
                 <option value="pedestrian">Pedestrian</option>
             </select>
+            
             <label for="startLocation">Start Location:</label>
             <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point">
+            
             <label for="endLocation">End Location:</label>
             <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination">
             
-            <!-- Add any additional fields required for the HERE API -->
+            <label for="departureTime">Departure Time:</label>
+            <input type="datetime-local" id="departureTime" name="departureTime">
+            
+            <label for="fuelType">Fuel Type:</label>
+            <select id="fuelType" name="fuelType">
+                <option value="diesel">Diesel</option>
+                <option value="gasoline">Gasoline</option>
+                <option value="electric">Electric</option>
+            </select>
+            
+            <label for="traffic">Include Traffic:</label>
+            <input type="checkbox" id="traffic" name="traffic">
 
-            <button type="submit">Calculate Route</button>
+            <input type="submit" id="button" value="Calculate Route">
         </form>
+
+        <script>
+            // Function to get a specific cookie by name
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            document.getElementById('routeForm').onsubmit = function(event) {
+                event.preventDefault();
+
+                var apiKey = getCookie('apiKey');
+                var startLocation = document.getElementById('startLocation').value;
+                var endLocation = document.getElementById('endLocation').value;
+                var departureTime = document.getElementById('departureTime').value;
+                var fuelType = document.getElementById('fuelType').value;
+                var includeTraffic = document.getElementById('traffic').checked;
+
+                // Function to get geocode data
+                function getGeocode(location, callback) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'https://geocode.search.hereapi.com/v1/geocode?q=' + encodeURIComponent(location) + '&apiKey=' + apiKey, true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = JSON.parse(xhr.responseText);
+                            callback(data.items[0].position);
+                        }
+                    };
+                    xhr.send();
+                }
+
+                // Main function to get route and calculate fuel consumption and CO2 emissions
+                function getRoute() {
+                    getGeocode(startLocation, function(startCoords) {
+                        getGeocode(endLocation, function(endCoords) {
+                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&transportMode=' + document.getElementById('transportType').value + '&departureTime=' + departureTime + '&fuel[type]=' + fuelType + '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1';
+
+                            if (includeTraffic) {
+                                routeURL += '&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055';
+                            } else {
+                                routeURL += '&traffic[mode]=disabled';
+                            }
+
+                            routeURL += '&apiKey=' + apiKey;
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', routeURL, true);
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    var routeData = JSON.parse(xhr.responseText);
+                                    console.log(routeData);
+                                }
+                            };
+                            xhr.send();
+                        });
+                    });
+                }
+
+                getRoute();
+            };
+        </script>
     </body>
 </html>
