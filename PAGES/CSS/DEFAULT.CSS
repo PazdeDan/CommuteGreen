@@ -6,7 +6,6 @@ h1 {
     font-size: 24px;
 }
 h2 {
-    margin-left: 10px;
     font-size: 18px;
     font-weight: normal;
 }
@@ -28,11 +27,12 @@ td {
 .nav {
     color: white;
     text-decoration: none;
-    margin-left: 20px;
+    padding-left: 20px;
 }
 .nav:hover {
     text-decoration: underline;
 }
+
 form {
     padding: 10px;
     border-radius: 5px;
@@ -40,10 +40,9 @@ form {
 }
 label {
     display: block;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 input, select, #button {
-    width: 100%;
     padding: 10px;
     margin-top: 10px;
     border: 1px solid #ccc;
@@ -60,7 +59,7 @@ input, select, #button {
 #results {
     margin-top: 20px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #f9f9f9;
 }
 #apiKeyPrompt {
@@ -80,4 +79,7 @@ input, select, #button {
 }
 #warning {
     color: red;
+}
+#contact {
+    padding-left: 20px;
 }

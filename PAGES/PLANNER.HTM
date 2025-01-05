@@ -18,6 +18,8 @@
                 <option value="taxi">Taxi</option>
                 <option value="truck">Truck</option>
             </select>
+            <br><label for="traffic" style="display: inline; font-size: 14px;">Include Traffic:</label>
+            <input type="checkbox" id="traffic" name="traffic">
             <label for="startLocation">Start Location:</label>
             <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point">
             <label for="endLocation">End Location:</label>
@@ -30,9 +32,7 @@
                 <option value="gasoline">Gasoline</option>
                 <option value="electric">Electric</option>
             </select>
-            <label for="traffic">Include Traffic:</label>
-            <input type="checkbox" id="traffic" name="traffic">
-            <input type="submit" id="button" value="Calculate Route">
+            <br><input type="submit" id="button" value="Calculate Route">
         </form>
         <div id="error" style="display:none; color:red;"></div>
         <div id="results">
