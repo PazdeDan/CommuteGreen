@@ -34,22 +34,25 @@
             window.onload = function() {
                 checkParentPage();
             };
+
         </script>
     </head>
     <body class="content">
         <h1>Route Planner</h1>
         <form id="routeForm">
-            <label for="transportType">Transport Type:</label>
-            <select id="transportType" name="transportType" class="formui">
-                <option value="bicycle">Bicycle</option>
-                <option value="bus">Public Transit</option>
-                <option value="car">Car</option>
-                <option value="pedestrian">Walking</option>
-                <option value="scooter">Scooter</option>
-                <option value="taxi">Taxi</option>
-                <option value="truck">Truck</option>
-            </select>
-            <br><label for="traffic" style="display: inline; font-size: 14px;">Include Traffic:</label>
+            <div>
+                <label for="transportType">Transport Type:</label>
+                <select id="transportType" name="transportType" class="formui">
+                    <option value="bicycle">Bicycle</option>
+                    <option value="bus">Public Transit</option>
+                    <option value="car">Car</option>
+                    <option value="pedestrian">Walking</option>
+                    <option value="scooter">Scooter</option>
+                    <option value="taxi">Taxi</option>
+                    <option value="truck">Truck</option>
+                </select>
+            </div>
+            <label for="traffic" style="display: inline;">Include Traffic:</label>
             <input type="checkbox" id="traffic" name="traffic" class="formui">
             <label for="startLocation">Start Location:</label>
             <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point" class="formui">
@@ -84,10 +87,6 @@
                 var fuelType = document.getElementById('fuelType').value;
                 var includeTraffic = document.getElementById('traffic').checked;
                 document.getElementById('error').style.display = 'none';
-                if (!isValidDateTime(departureTime)) {
-                    displayError('Please enter a valid departure time in the format YYYY-MM-DDTHH:MM:SS.');
-                    return;
-                }
 
                 function getGeocode(location, callback) {
                     var xhr = new XMLHttpRequest();
@@ -115,8 +114,16 @@
                 function getRoute() {
                     getGeocode(startLocation, function(startCoords) {
                         getGeocode(endLocation, function(endCoords) {
-                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&return=summary&transportMode=' + document.getElementById('transportType').value + '&departureTime=' + departureTime + '&fuel[type]=' + fuelType + '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1&apiKey=' + apiKey;
-                            if (includeTraffic === false) {
+                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&return=summary&transportMode=' + document.getElementById('transportType').value;
+                            if (departureTime && isValidDateTime(departureTime)) {
+                                routeURL += '&departureTime=' + departureTime;
+                            }
+                            if (fuelType) {
+                                routeURL += '&fuel[type]=' + fuelType;
+                            }
+                            if (includeTraffic) {
+                                routeURL += '&traffic[mode]=enabled';
+                            } else {
                                 routeURL += '&traffic[mode]=disabled';
                             }
                             routeURL += '&apiKey=' + apiKey;
@@ -194,6 +201,31 @@
 
                 return score;
             }
+
+            function isValidDateTime(dateTime) {
+                var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+                return regex.test(dateTime);
+            }
+
+            function displayError(message) {
+                var errorDiv = document.getElementById('error');
+                errorDiv.innerText = message;
+                errorDiv.style.display = 'block';
+            }
+
+            function toggleAutomobileOptions() {
+                var transportType = document.getElementById('transportType').value;
+                var isAutomobile = transportType === 'car' || transportType === 'truck';
+                document.getElementById('traffic').style.display = isAutomobile ? 'inline' : 'none';
+                document.getElementById('fuelType').style.display = isAutomobile ? 'block' : 'none';
+                document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
+                document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
+            }
+
+            window.onload = function() {
+                toggleAutomobileOptions();
+                document.getElementById('transportType').addEventListener('change', toggleAutomobileOptions);
+            };
         </script>
     </body>
 </html>
