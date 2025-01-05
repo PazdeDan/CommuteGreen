@@ -26,9 +26,9 @@
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                     document.getElementById("hamburger").style.display = "block";
-                    document.getElementById("logo").style.height = "74";
+                    document.getElementById("dlogo").style.display = "none";
                 } else {
-                    document.getElementById("logo").style.height = "37";
+                    document.getElementById("mlogo").style.display = "none";
                     toggleDarkMode();
                 }
             }
@@ -51,7 +51,7 @@
         <table id="navbar">
             <tr>
                 <td id="left">
-                    <a href="HOME.HTM" target="content" style="color: white"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" id="logo" style="margin-right: 20px;"></a>
+                    <a href="HOME.HTM" target="content" style="color: white"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" id="dlogo" height="37" style="margin-right: 20px;"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" id="mlogo" height="74" style="margin-right: 20px;"></a>
                     <a href="MOBILE.HTM" target="_top" id="msite" class="nav" style="color: silver;">Go to Mobile site</a>
                     <a href="INDEX.HTM" target="_top" id="dsite" class="mnav" style="color: silver;">Desktop</a>
                     <button id="hamburger" style="display: none;" onclick="toggleSidebar()">≡</button>
