@@ -22,8 +22,26 @@
                 document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
             }
 
+            function checkParentPage() {
+                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                    document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
+                    document.getElementById("hamburger").style.display = "block";
+                } else {
+                    toggleDarkMode();
+                }
+            }
+
+            function toggleSidebar() {
+                var dualFrame = window.top.document.getElementById('dualframe');
+                if (dualFrame.cols === "100%, 0%") {
+                    dualFrame.cols = "25%, 75%";
+                } else {
+                    dualFrame.cols = "100%, 0%";
+                }
+            }
+
             window.onload = function() {
-                toggleDarkMode();
+                checkParentPage();
             };
         </script>
     </head>
@@ -32,12 +50,21 @@
             <tr>
                 <td id="left">
                     <a href="HOME.HTM" target="content" style="color: white"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" width="200" height="37" style="margin-right: 20px;"></a>
-                    <a href="MOBILE.HTM" target="content" class="nav" style="color: silver;">Go to Mobile site</a>
+                    <a href="MOBILE.HTM" target="_top" id="msite" class="nav" style="color: silver;">Go to Mobile site</a>
+                    <a href="INDEX.HTM" target="_top" id="dsite" class="mnav" style="color: silver;">Go to Desktop site</a>
+                    <button id="hamburger" style="display: none;" onclick="toggleSidebar()">☰</button>
                 </td>
                 <td id="right">
                     <a href="PLANNER.HTM" target="content" class="nav">Planner</a>
                     <a href="FTPRINT.HTM" target="content" class="nav">My Footprint</a>
                     <a href="ABOUT.HTM" target="content" class="nav">About</a>
+                </td>
+            </tr>
+            <tr id="bottom">
+                <td>
+                    <a href="PLANNER.HTM" target="content" class="mnav">Planner</a>
+                    <a href="FTPRINT.HTM" target="content" class="mnav">My Footprint</a>
+                    <a href="ABOUT.HTM" target="content" class="mnav">About</a>
                 </td>
             </tr>
         <table>

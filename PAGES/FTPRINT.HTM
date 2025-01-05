@@ -21,8 +21,16 @@
                 document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
             }
 
+            function checkParentPage() {
+                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                    document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
+                } else {
+                    toggleDarkMode();
+                }
+            }
+
             window.onload = function() {
-                toggleDarkMode();
+                checkParentPage();
             };
         </script>
     </head>

@@ -28,6 +28,9 @@ td {
 #right {
     text-align: right;
 }
+#bottom {
+    display: none;
+}
 .nav {
     color: white;
     text-decoration: none;
@@ -37,6 +40,9 @@ td {
 }
 .nav:hover {
     text-decoration: underline;
+}
+#dsite {
+    display: none;
 }
 form {
     padding: 10px;

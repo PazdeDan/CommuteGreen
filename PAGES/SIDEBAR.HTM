@@ -72,11 +72,18 @@
                     alert("All cookies have been deleted.");
                 }
             }
+            function checkParentPage() {
+                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                    document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
+                } else {
+                    toggleDarkMode();
+                }
+            }
 
             window.onload = function() {
                 checkApiKey();
                 checkCookiesEnabled();
-                toggleDarkMode();
+                checkParentPage();
             };
         </script>
     </head>
