@@ -25,7 +25,9 @@
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
+                    document.getElementById("davatar").style.display = "none";
                 } else {
+                    document.getElementById("mavatar").style.display = "none";
                     toggleDarkMode();
                 }
             }
@@ -39,7 +41,8 @@
         <table>
             <tr>
                 <td>
-                    <img src="MEDIA/AVATAR.JPG" alt="Avatar" width="50" height="50">
+                    <img src="MEDIA/AVATAR.JPG" id="davatar" alt="Avatar" width="50" height="50">
+                    <img src="MEDIA/AVATAR.JPG" id="mavatar" alt="Avatar" width="200" height="200">
                 </td>
                 <td>
                     <h2 id="contact">Daniel Pazdera<br>Creator & Maintainer</h2>

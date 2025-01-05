@@ -46,6 +46,91 @@ td {
 #msite {
     display: none;
 }
+
+button:not(#hamburger), input[type="submit"], input[type="button"] {
+    font-size: 48px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #004000;
+}
+
+input[type="text"], select {
+    font-size: 48px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    transform: scale(4);
+}
+
+label {
+    font-size: 48px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.formui {
+    font-size: 48px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#results {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 48px;
+}
+
+#apiKeyPrompt {
+    font-size: 48px;
+    background-color: #ffbfbf;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#apiKey {
+    font-size: 48px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#cookieWarning {
+    font-size: 48px;
+    background-color: #ffffbf;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#warning {
+    font-size: 48px;
+    color: red;
+    margin-top: 20px;
+}
+
+#contact {
+    font-size: 48px;
+    padding-left: 20px;
+}
 #hamburger {
     display: none;
     margin-left: auto;
@@ -68,16 +153,6 @@ form {
     border-radius: 10px;
     border: 2px solid #ccc;
 }
-label {
-    display: block;
-    margin-top: 40px;
-}
-.formui {
-    padding: 20px;
-    margin-top: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-}
 #button {
     background-color: green;
     color: white;
@@ -85,12 +160,6 @@ label {
 }
 #button:hover {
     background-color: #004000;
-}
-#results {
-    margin-top: 40px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
 }
 #apiKeyPrompt {
     display: none;
@@ -107,12 +176,6 @@ label {
     margin-top: 20px;
     display: none;
 }
-#warning {
-    color: red;
-}
-#contact {
-    padding-left: 20px;
-}
 #sidebar {
     color: white;
     /* background-color: #00a600; */
@@ -120,9 +183,6 @@ label {
     padding: 40px;
     font-size: 48px;
 }
-#mlogo {
-    display: block;
-}
-#dlogo {
-    display: none;
+#delcookies {
+    margin-top: 100px;
 }

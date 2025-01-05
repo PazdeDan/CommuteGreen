@@ -124,9 +124,3 @@ label {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
-#dlogo {
-    display: block;
-}
-#mlogo {
-    display: none;
-}
