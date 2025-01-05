@@ -14,18 +14,21 @@
                 }
                 return null;
             }
+
             function setCookie(name, value, days) {
                 var date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 var expires = "; expires=" + date.toGMTString();
                 document.cookie = name + "=" + value + expires + "; path=/";
             }
+
             function validateApiKey(inputKey, callback) {
                 var SHA256 = new Hashes.SHA256();
                 var realKeyHash = '163c2e98be468ca0aa21ffee3868ddc488847124e591c5ab6baf70761aaffdbd';
                 var inputKeyHash = SHA256.hex(inputKey);
                 callback(inputKeyHash === realKeyHash);
             }
+
             function checkApiKey() {
                 var apiKey = getCookie("apiKey");
                 if (apiKey) {
@@ -34,6 +37,7 @@
                     document.getElementById("apiKeyPrompt").style.display = "block";
                 }
             }
+
             function submitApiKey() {
                 var inputKey = document.getElementById("apiKey").value;
                 validateApiKey(inputKey, function(isValid) {
@@ -46,6 +50,7 @@
                     }
                 });
             }
+
             function checkCookiesEnabled() {
                 setCookie("testCookie", "test", 1);
                 if (getCookie("testCookie")) {
@@ -54,12 +59,14 @@
                     document.getElementById("cookieWarning").style.display = "block";
                 }
             }
+
             function toggleDarkMode() {
                 var darkModeEnabled = getCookie("darkMode") === "true";
                 var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
                 document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
                 document.getElementById("darkMode").checked = darkModeEnabled;
             }
+
             function deleteAllCookies() {
                 if (confirm("Are you sure you want to delete all cookies?")) {
                     var cookies = document.cookie.split(";");
@@ -72,8 +79,10 @@
                     alert("All cookies have been deleted.");
                 }
             }
+
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                var referrer = document.referrer;
+                if (referrer && referrer.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                 } else {
                     toggleDarkMode();

@@ -23,9 +23,11 @@
             }
 
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                var referrer = document.referrer;
+                if (referrer && referrer.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                     document.getElementById("hamburger").style.display = "block";
+                    document.getElementById('logo').style.height = "74";
                 } else {
                     toggleDarkMode();
                 }
@@ -49,7 +51,7 @@
         <table id="navbar">
             <tr>
                 <td id="left">
-                    <a href="HOME.HTM" target="content" style="color: white"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" width="200" height="37" style="margin-right: 20px;"></a>
+                    <a href="HOME.HTM" target="content" style="color: white"><img src="MEDIA/LOGO.GIF" alt="CommuteGreen" id="logo" height="37" style="margin-right: 20px;"></a>
                     <a href="MOBILE.HTM" target="_top" id="msite" class="nav" style="color: silver;">Go to Mobile site</a>
                     <a href="INDEX.HTM" target="_top" id="dsite" class="mnav" style="color: silver;">Go to Desktop site</a>
                     <button id="hamburger" style="display: none;" onclick="toggleSidebar()">☰</button>

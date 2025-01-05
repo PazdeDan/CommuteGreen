@@ -23,7 +23,8 @@
             }
 
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                var referrer = document.referrer;
+                if (referrer && referrer.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                 } else {
                     toggleDarkMode();
@@ -48,7 +49,7 @@
         </table>
         <H1>About this project</h1>
         <p>This Web site is part of my MYP Personal Project at Asker International School. I started development in November of 2024, with it being complete as of the 6th of January, 2025.</p>
-        <H1>How it works</H1>
+        <H1>How it works</h1>
         <p>I have always had an appreciation for old technology, and I try to design my programs with backwards-compatibility in mind. As such, this Web site is designed to be fully compliant with HTML 4.01 Transitional/Frameset, CSS 2.0, and JavaScript ES3 standards, which all came out in the late 1990s. This, in theory, means that the Web site should be compatible with ancient browsers such as Netscape Navigator 6 or Internet Explorer 5, the latter support systems as old as Windows 3.1 or Mac OS version 7.6.1.</p>
     </body>
 </html>

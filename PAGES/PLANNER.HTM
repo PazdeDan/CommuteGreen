@@ -22,7 +22,8 @@
             }
 
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                var referrer = document.referrer;
+                if (referrer && referrer.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                 } else {
                     toggleDarkMode();
