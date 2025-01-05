@@ -165,6 +165,7 @@ form {
     display: none;
     background-color: #6f0000;
     padding: 20px;
+    margin-bottom: 40px;
 }
 #apiKey {
     width: 50%;
@@ -173,7 +174,7 @@ form {
 #cookieWarning {
     background-color: #6f6f00;
     padding: 20px;
-    margin-top: 20px;
+    margin-bottom: 40px;
     display: none;
 }
 #sidebar {
