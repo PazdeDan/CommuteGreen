@@ -83,8 +83,10 @@
     <body>
         <div id="apiKeyPrompt">
             A Here API key is required for the planner to work, but none was found. Please enter your key below.
-            <input type="text" id="apiKey" placeholder="Enter API key">
-            <input type="button" value="Save" onclick="submitApiKey();">
+            <div style="margin-top: 10px;">
+                <input type="text" id="apiKey" placeholder="Enter API key">
+                <input type="button" value="Save" onclick="submitApiKey();">
+            </div>
             <div id="warning" style="display: none;">
                 Invalid API key. Please try again.
             </div>

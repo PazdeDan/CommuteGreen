@@ -27,6 +27,8 @@ td {
 }
 #left {
     text-align: left;
+    align-items: center;
+    display: flex;
 }
 #right {
     text-align: right;
@@ -82,13 +84,12 @@ label {
 #apiKey {
     width: 50%;
     margin-right: 10px;
-    margin-top: 10px;
     background-color: #2c2c2c;
     color: #e0e0e0;
     border: 1px solid #333;
 }
 #cookieWarning {
-    background-color: #6f6f00;
+    background-color: #ffffbf;
     padding: 10px;
     margin-top: 10px;
     display: none;
