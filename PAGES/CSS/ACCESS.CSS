@@ -51,7 +51,7 @@ td {
 }
 form {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid #333;
     background-color: #1f1f1f;
 }
@@ -95,7 +95,7 @@ label {
     border: 1px solid #333;
 }
 #cookieWarning {
-    background-color: #ffffbf;
+    background-color: #6f6f00;
     padding: 10px;
     margin-top: 10px;
     display: none;

@@ -2,11 +2,22 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="refresh" content="0;url=PAGES/INDEX.HTM">
     <title>Redirecting...</title>
+    <script type="text/javascript">
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        window.onload = function() {
+            if (isMobileDevice()) {
+                window.location.href = "PAGES/MOBILE.HTM";
+            } else {
+                window.location.href = "PAGES/INDEX.HTM";
+            }
+        };
+    </script>
 </head>
 <body>
-    <p>If you are not redirected automatically, follow this <a href="INDEX.HTM">link to INDEX.HTM</a>.</p>
+    <p>If you are not redirected automatically, follow this <a id="redirectLink" href="PAGES/INDEX.HTM">link to INDEX.HTM</a>.</p>
 </body>
 </html>
-

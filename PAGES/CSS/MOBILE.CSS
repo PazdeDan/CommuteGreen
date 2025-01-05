@@ -2,16 +2,16 @@ body {
     font-family: Trebuchet MS, Verdana, sans-serif;
 }
 h1 {
-    font-size: 24px;
+    font-size: 2em;
 }
 h2 {
-    font-size: 18px;
+    font-size: 1.5em;
     font-weight: normal;
 }
 #navbar {
     width: 100%;
     background-color: green;
-    padding: 20px;
+    padding: 40px;
 }
 td {
     vertical-align: middle;
@@ -20,24 +20,24 @@ td {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 #right {
     display: none;
 }
 #bottom {
     display: block;
-    padding-top: 10px;
+    padding-top: 20px;
     border-top-color: #ccc;
     border-top-style: solid;
-    border-top-width: 1px;
+    border-top-width: 2px;
 }
 .mnav {
     color: white;
     text-decoration: none;
-    padding-right: 20px;
+    padding-right: 40px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.5em;
 }
 .mnav:hover {
     text-decoration: underline;
@@ -52,29 +52,29 @@ td {
     color: white;
     border: 0px solid #ccc;
     border-radius: 10px;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
+    font-size: 48px;
+    width: 80px;
+    height: 80px;
 }
 #hamburger:active {
     background-color: #004000;
 }
 #hamburger:hover {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
 }
 form {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
 }
 label {
     display: block;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 .formui {
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid #ccc;
     border-radius: 10px;
 }
 #button {
@@ -86,24 +86,24 @@ label {
     background-color: #004000;
 }
 #results {
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 40px;
+    padding: 20px;
     border-radius: 10px;
     background-color: #f9f9f9;
 }
 #apiKeyPrompt {
     display: none;
-    background-color: #ffbfbf;
-    padding: 10px;
+    background-color: #6f0000;
+    padding: 20px;
 }
 #apiKey {
     width: 50%;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 #cookieWarning {
-    background-color: #ffffbf;
-    padding: 10px;
-    margin-top: 10px;
+    background-color: #6f6f00;
+    padding: 20px;
+    margin-top: 20px;
     display: none;
 }
 #warning {
@@ -111,4 +111,9 @@ label {
 }
 #contact {
     padding-left: 20px;
+}
+#sidebar {
+    color: white;
+    /* background-color: #00a600; */
+    background-color: green;
 }
