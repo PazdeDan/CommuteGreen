@@ -2,14 +2,14 @@
 <html>
     <head>
         <title>Sidebar</title>
-        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS">
+        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS" id="themeStylesheet">
         <script type="text/javascript" src="JSHASHES.JS"></script>
         <script type="text/javascript">
             function getCookie(name) {
                 var nameEQ = name + "=";
-                var ca = document.cookie.split(";");
+                var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i].trim();
+                    var c = ca[i].replace(/^\s+|\s+$/g, "");
                     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
                 }
                 return null;
@@ -54,9 +54,29 @@
                     document.getElementById("cookieWarning").style.display = "block";
                 }
             }
+            function toggleDarkMode() {
+                var darkModeEnabled = getCookie("darkMode") === "true";
+                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
+                document.getElementById("darkMode").checked = darkModeEnabled;
+            }
+            function deleteAllCookies() {
+                if (confirm("Are you sure you want to delete all cookies?")) {
+                    var cookies = document.cookie.split(";");
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i];
+                        var eqPos = cookie.indexOf("=");
+                        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+                    }
+                    alert("All cookies have been deleted.");
+                }
+            }
+
             window.onload = function() {
                 checkApiKey();
                 checkCookiesEnabled();
+                toggleDarkMode();
             };
         </script>
     </head>
@@ -71,6 +91,11 @@
         </div>
         <div id="cookieWarning">
             Cookies are disabled in your browser. Please enable cookies to use this application.
+        </div>
+        <label for="darkMode">Enable Dark Mode:</label>
+        <input type="checkbox" id="darkMode" onclick="setCookie('darkMode', document.getElementById('darkMode').checked, 7);">
+        <div style="margin-top: 10px;">
+            <input type="button" value="Delete All Cookies" onclick="deleteAllCookies();">
         </div>
     </body>
 </html>

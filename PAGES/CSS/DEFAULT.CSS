@@ -1,5 +1,7 @@
 body {
-    font-family: Helvetia Neue, Helvetica, sans-serif;
+    font-family: Trebuchet MS, Verdana, sans-serif;
+}
+.content {
     margin-right: 25%;
 }
 h1 {
@@ -28,11 +30,12 @@ td {
     color: white;
     text-decoration: none;
     padding-left: 20px;
+    font-weight: bold;
+    font-size: 18px;
 }
 .nav:hover {
     text-decoration: underline;
 }
-
 form {
     padding: 10px;
     border-radius: 5px;
@@ -42,7 +45,7 @@ label {
     display: block;
     margin-top: 20px;
 }
-input, select, #button {
+.formui {
     padding: 10px;
     margin-top: 10px;
     border: 1px solid #ccc;
@@ -70,6 +73,7 @@ input, select, #button {
 #apiKey {
     width: 50%;
     margin-right: 10px;
+    margin-top: 10px;
 }
 #cookieWarning {
     background-color: #ffffbf;

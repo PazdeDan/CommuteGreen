@@ -3,11 +3,31 @@
     <head>
         <title>Home</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS">
+        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS" id="themeStylesheet">
+        <script type="text/javascript">
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].replace(/^\s+|\s+$/g, "");
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function toggleDarkMode() {
+                var darkModeEnabled = getCookie("darkMode") === "true";
+                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
+            }
+
+            window.onload = function() {
+                toggleDarkMode();
+            };
+        </script>
     </head>
-    <body>
+    <body class="content">
         <h1>Welcome to CommuteGreen</h1>
         <h2><marquee>We're on a mission to give users a faster and greener commute.</marquee></h2>
         <img src="MEDIA/COVER.JPG" alt="Cover Image" width=100%>

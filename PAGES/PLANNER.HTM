@@ -3,46 +3,7 @@
     <head>
         <title>Route Planner</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS">
-    </head>
-    <body>
-        <h1>Route Planner</h1>
-        <form id="routeForm">
-            <label for="transportType">Transport Type:</label>
-            <select id="transportType" name="transportType">
-                <option value="bicycle">Bicycle</option>
-                <option value="bus">Public Transit</option>
-                <option value="car">Car</option>
-                <option value="pedestrian">Walking</option>
-                <option value="scooter">Scooter</option>
-                <option value="taxi">Taxi</option>
-                <option value="truck">Truck</option>
-            </select>
-            <br><label for="traffic" style="display: inline; font-size: 14px;">Include Traffic:</label>
-            <input type="checkbox" id="traffic" name="traffic">
-            <label for="startLocation">Start Location:</label>
-            <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point">
-            <label for="endLocation">End Location:</label>
-            <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination">
-            <label for="departureTime">Departure Time:</label>
-            <input type="text" id="departureTime" name="departureTime" placeholder="YYYY-MM-DDTHH:MM:SS">
-            <label for="fuelType">Fuel Type:</label>
-            <select id="fuelType" name="fuelType">
-                <option value="diesel">Diesel</option>
-                <option value="gasoline">Gasoline</option>
-                <option value="electric">Electric</option>
-            </select>
-            <br><input type="submit" id="button" value="Calculate Route">
-        </form>
-        <div id="error" style="display:none; color:red;"></div>
-        <div id="results">
-            <h2>Eco-Friendliness Results</h2>
-            <p id="ecoScore">Eco-Score: Results will appear here...</p>
-            <p id="distance">Distance: Results will appear here...</p>
-            <p id="duration">Duration: Results will appear here...</p>
-            <p id="co2Emission">CO2 Emissions: Results will appear here...</p>
-            <p id="fuelConsumption">Fuel Consumption: Results will appear here...</p>
-        </div>
+        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS" id="themeStylesheet">
         <script type="text/javascript">
             function getCookie(name) {
                 var nameEQ = name + "=";
@@ -54,17 +15,56 @@
                 return null;
             }
 
-            function isValidDateTime(dateTime) {
-                var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-                return regex.test(dateTime);
+            function toggleDarkMode() {
+                var darkModeEnabled = getCookie("darkMode") === "true";
+                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
             }
 
-            function displayError(message) {
-                var errorDiv = document.getElementById('error');
-                errorDiv.innerText = message;
-                errorDiv.style.display = 'block';
-            }
-
+            window.onload = function() {
+                toggleDarkMode();
+            };
+        </script>
+    </head>
+    <body class="content">
+        <h1>Route Planner</h1>
+        <form id="routeForm">
+            <label for="transportType">Transport Type:</label>
+            <select id="transportType" name="transportType" class="formui">
+                <option value="bicycle">Bicycle</option>
+                <option value="bus">Public Transit</option>
+                <option value="car">Car</option>
+                <option value="pedestrian">Walking</option>
+                <option value="scooter">Scooter</option>
+                <option value="taxi">Taxi</option>
+                <option value="truck">Truck</option>
+            </select>
+            <br><label for="traffic" style="display: inline; font-size: 14px;">Include Traffic:</label>
+            <input type="checkbox" id="traffic" name="traffic" class="formui">
+            <label for="startLocation">Start Location:</label>
+            <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point" class="formui">
+            <label for="endLocation">End Location:</label>
+            <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination" class="formui">
+            <label for="departureTime">Departure Time:</label>
+            <input type="text" id="departureTime" name="departureTime" placeholder="YYYY-MM-DDTHH:MM:SS" class="formui">
+            <label for="fuelType">Fuel Type:</label>
+            <select id="fuelType" name="fuelType" class="formui">
+                <option value="diesel">Diesel</option>
+                <option value="gasoline">Gasoline</option>
+                <option value="electric">Electric</option>
+            </select>
+            <br><input type="submit" id="button" value="Calculate Route" class="formui">
+        </form>
+        <div id="error" style="display:none; color:red;"></div>
+        <div id="results">
+            <h2>Eco-Friendliness Results</h2>
+            <p id="ecoScore">Eco-Score: Results will appear here...</p>
+            <p id="distance">Distance: Results will appear here...</p>
+            <p id="duration">Duration: Results will appear here...</p>
+            <p id="co2Emission">CO2 Emissions: Results will appear here...</p>
+            <p id="fuelConsumption">Fuel Consumption: Results will appear here...</p>
+        </div>
+        <script type="text/javascript">
             document.getElementById('routeForm').onsubmit = function(event) {
                 event.preventDefault();
                 var apiKey = getCookie('apiKey');

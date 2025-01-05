@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Footprint</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS" id="themeStylesheet">
+        <script type="text/javascript">
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].replace(/^\s+|\s+$/g, "");
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function toggleDarkMode() {
+                var darkModeEnabled = getCookie("darkMode") === "true";
+                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
+            }
+
+            window.onload = function() {
+                toggleDarkMode();
+            };
+        </script>
+    </head>
+    <body class="content">
+        <!-- ...existing code... -->
+    </body>
+</html>
