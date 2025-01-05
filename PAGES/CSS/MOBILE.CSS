@@ -116,4 +116,6 @@ label {
     color: white;
     /* background-color: #00a600; */
     background-color: green;
+    padding: 40px;
+    font-size: 1em;
 }
