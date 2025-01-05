@@ -1,12 +1,12 @@
 body {
     font-family: Trebuchet MS, Verdana, sans-serif;
-    font-size: 18px;
+    font-size: 48px;
 }
 h1 {
-    font-size: 30px;
+    font-size: 72px;
 }
 h2 {
-    font-size: 24px;
+    font-size: 60px;
     font-weight: normal;
 }
 #navbar {
@@ -38,7 +38,7 @@ td {
     text-decoration: none;
     padding-right: 40px;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 60px;
 }
 .mnav:hover {
     text-decoration: underline;
@@ -118,5 +118,5 @@ label {
     /* background-color: #00a600; */
     background-color: green;
     padding: 40px;
-    font-size: 1em;
+    font-size: 48px;
 }
