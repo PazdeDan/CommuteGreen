@@ -37,6 +37,33 @@
         </script>
     </head>
     <body class="content">
-        <!-- ...existing code... -->
+    <script type="text/javascript">
+        function getTravelData() {
+            var travelData = getCookie("travelData");
+            return travelData ? JSON.parse(travelData) : [];
+        }
+
+        function displayTravelData() {
+            var travelData = getTravelData();
+            if (travelData.length === 0) {
+                document.getElementById("travelDataContainer").innerHTML = "<p>No travel data available.</p>";
+                return;
+            }
+
+            var table = "<table><tr><th>Date</th><th>Distance</th><th>Mode</th></tr>";
+            for (var i = 0; i < travelData.length; i++) {
+                table += "<tr><td>" + travelData[i].date + "</td><td>" + travelData[i].distance + "</td><td>" + travelData[i].mode + "</td></tr>";
+            }
+            table += "</table>";
+            document.getElementById("travelDataContainer").innerHTML = table;
+        }
+
+        window.onload = function() {
+            checkParentPage();
+            displayTravelData();
+        };
+    </script>
+
+    <div id="travelDataContainer"></div>
     </body>
 </html>

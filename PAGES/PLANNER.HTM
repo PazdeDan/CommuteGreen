@@ -75,153 +75,166 @@
         </div>
         <script type="text/javascript">
             document.getElementById('routeForm').onsubmit = function(event) {
-                event.preventDefault();
-                var apiKey = getCookie('apiKey');
-                var startLocation = document.getElementById('startLocation').value;
-                var endLocation = document.getElementById('endLocation').value;
-                var departureTime = document.getElementById('departureTime').value;
-                var fuelType = document.getElementById('fuelType').value;
-                var includeTraffic = document.getElementById('traffic').checked;
-                document.getElementById('error').style.display = 'none';
+            event.preventDefault();
+            var apiKey = getCookie('apiKey');
+            var startLocation = document.getElementById('startLocation').value;
+            var endLocation = document.getElementById('endLocation').value;
+            var departureTime = document.getElementById('departureTime').value;
+            var fuelType = document.getElementById('fuelType').value;
+            var includeTraffic = document.getElementById('traffic').checked;
+            document.getElementById('error').style.display = 'none';
 
-                function getGeocode(location, callback) {
+            function getGeocode(location, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://geocode.search.hereapi.com/v1/geocode?q=' + encodeURIComponent(location) + '&apiKey=' + apiKey, true);
+                xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.items && data.items.length > 0) {
+                        callback(data.items[0].position);
+                    } else {
+                        displayError('Geocoding error: Location not found.');
+                    }
+                    } else {
+                    displayError('Geocoding error: ' + xhr.statusText);
+                    }
+                }
+                };
+                xhr.onerror = function() {
+                displayError('Geocoding request failed.');
+                };
+                xhr.send();
+            }
+
+            function getRoute() {
+                getGeocode(startLocation, function(startCoords) {
+                getGeocode(endLocation, function(endCoords) {
+                    var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&return=summary&transportMode=' + document.getElementById('transportType').value;
+                    if (departureTime && isValidDateTime(departureTime)) {
+                    routeURL += '&departureTime=' + departureTime;
+                    }
+                    if (fuelType) {
+                    routeURL += '&fuel[type]=' + fuelType;
+                    }
+                    if (includeTraffic) {
+                    routeURL += '&traffic[mode]=enabled';
+                    } else {
+                    routeURL += '&traffic[mode]=disabled';
+                    }
+                    routeURL += '&apiKey=' + apiKey;
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'https://geocode.search.hereapi.com/v1/geocode?q=' + encodeURIComponent(location) + '&apiKey=' + apiKey, true);
+                    xhr.open('GET', routeURL, true);
                     xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4) {
-                            if (xhr.status == 200) {
-                                var data = eval('(' + xhr.responseText + ')');
-                                if (data.items && data.items.length > 0) {
-                                    callback(data.items[0].position);
-                                } else {
-                                    displayError('Geocoding error: Location not found.');
-                                }
-                            } else {
-                                displayError('Geocoding error: ' + xhr.statusText);
-                            }
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                        var routeData = JSON.parse(xhr.responseText);
+                        console.log('Route Data:', routeData); // Log the routeData for debugging
+                        if (routeData.routes && routeData.routes.length > 0 && routeData.routes[0].sections && routeData.routes[0].sections.length > 0 && routeData.routes[0].sections[0].summary) {
+                            var ecoScore = calculateEcoScore(routeData);
+                            var distance = routeData.routes[0].sections[0].summary.length / 1000;
+                            var duration = routeData.routes[0].sections[0].summary.duration / 60;
+                            var co2Emission = routeData.routes[0].sections[0].summary.co2Emission;
+                            var fuelConsumption = routeData.routes[0].sections[0].summary.consumption;
+                            document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
+                            document.getElementById('distance').innerText = 'Distance: ' + distance + ' km';
+                            document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
+                            document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
+                            document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' liters';
+                            saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, fuelConsumption);
+                        } else {
+                            displayError('Routing error: Unexpected response structure.');
                         }
+                        } else {
+                        displayError('Routing error: ' + xhr.statusText);
+                        }
+                    }
                     };
                     xhr.onerror = function() {
-                        displayError('Geocoding request failed.');
+                    displayError('Routing request failed.');
                     };
                     xhr.send();
-                }
+                });
+                });
+            }
 
-                function getRoute() {
-                    getGeocode(startLocation, function(startCoords) {
-                        getGeocode(endLocation, function(endCoords) {
-                            var routeURL = 'https://router.hereapi.com/v8/routes?origin=' + startCoords.lat + ',' + startCoords.lng + '&destination=' + endCoords.lat + ',' + endCoords.lng + '&return=summary&transportMode=' + document.getElementById('transportType').value;
-                            if (departureTime && isValidDateTime(departureTime)) {
-                                routeURL += '&departureTime=' + departureTime;
-                            }
-                            if (fuelType) {
-                                routeURL += '&fuel[type]=' + fuelType;
-                            }
-                            if (includeTraffic) {
-                                routeURL += '&traffic[mode]=enabled';
-                            } else {
-                                routeURL += '&traffic[mode]=disabled';
-                            }
-                            routeURL += '&apiKey=' + apiKey;
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('GET', routeURL, true);
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState == 4) {
-                                    if (xhr.status == 200) {
-                                        var routeData = eval('(' + xhr.responseText + ')');
-                                        console.log('Route Data:', routeData); // Log the routeData for debugging
-                                        if (routeData.routes && routeData.routes.length > 0 && routeData.routes[0].sections && routeData.routes[0].sections.length > 0 && routeData.routes[0].sections[0].summary) {
-                                            var ecoScore = calculateEcoScore(routeData);
-                                            var distance = routeData.routes[0].sections[0].summary.length / 1000;
-                                            var duration = routeData.routes[0].sections[0].summary.duration / 60;
-                                            var co2Emission = routeData.routes[0].sections[0].summary.co2Emission;
-                                            var fuelConsumption = routeData.routes[0].sections[0].summary.consumption;
-                                            document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
-                                            document.getElementById('distance').innerText = 'Distance: ' + distance + ' km';
-                                            document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
-                                            document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
-                                            document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' liters';
-                                        } else {
-                                            displayError('Routing error: Unexpected response structure.');
-                                        }
-                                    } else {
-                                        displayError('Routing error: ' + xhr.statusText);
-                                    }
-                                }
-                            };
-                            xhr.onerror = function() {
-                                displayError('Routing request failed.');
-                            };
-                            xhr.send();
-                        });
-                    });
-                }
-
-                getRoute();
+            getRoute();
             };
 
             function calculateEcoScore(routeData) {
-                if (!routeData || !routeData.routes || !routeData.routes[0] || !routeData.routes[0].sections || !routeData.routes[0].sections[0] || !routeData.routes[0].sections[0].summary || !routeData.routes[0].sections[0].summary.length) {
-                    return "N/A";
-                }
+            if (!routeData || !routeData.routes || !routeData.routes[0] || !routeData.routes[0].sections || !routeData.routes[0].sections[0] || !routeData.routes[0].sections[0].summary || !routeData.routes[0].sections[0].summary.length) {
+                return "N/A";
+            }
 
-                var distance = routeData.routes[0].sections[0].summary.length / 1000;
-                var transportType = document.getElementById('transportType').value;
-                var fuelType = document.getElementById('fuelType').value;
+            var distance = routeData.routes[0].sections[0].summary.length / 1000;
+            var transportType = document.getElementById('transportType').value;
+            var fuelType = document.getElementById('fuelType').value;
 
-                var score = 100;
+            var score = 100;
 
-                if (transportType === 'car' || transportType === 'taxi' || transportType === 'truck') {
-                    score -= 20;
-                } else if (transportType === 'bus' || transportType === 'scooter') {
-                    score -= 10;
-                } else if (transportType === 'bicycle' || transportType === 'pedestrian') {
-                    score += 10;
-                }
+            if (transportType === 'car' || transportType === 'taxi' || transportType === 'truck') {
+                score -= 20;
+            } else if (transportType === 'bus' || transportType === 'scooter') {
+                score -= 10;
+            } else if (transportType === 'bicycle' || transportType === 'pedestrian') {
+                score += 10;
+            }
 
-                if (fuelType === 'diesel') {
-                    score -= 15;
-                } else if (fuelType === 'gasoline') {
-                    score -= 10;
-                } else if (fuelType === 'electric') {
-                    score += 10;
-                }
+            if (fuelType === 'diesel') {
+                score -= 15;
+            } else if (fuelType === 'gasoline') {
+                score -= 10;
+            } else if (fuelType === 'electric') {
+                score += 10;
+            }
 
-                if (distance > 50) {
-                    score -= 20;
-                } else if (distance > 20) {
-                    score -= 10;
-                } else if (distance > 10) {
-                    score -= 5;
-                }
+            if (distance > 50) {
+                score -= 20;
+            } else if (distance > 20) {
+                score -= 10;
+            } else if (distance > 10) {
+                score -= 5;
+            }
 
-                return score;
+            return score;
             }
 
             function isValidDateTime(dateTime) {
-                var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-                return regex.test(dateTime);
+            var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+            return regex.test(dateTime);
             }
 
             function displayError(message) {
-                var errorDiv = document.getElementById('error');
-                errorDiv.innerText = message;
-                errorDiv.style.display = 'block';
+            var errorDiv = document.getElementById('error');
+            errorDiv.innerText = message;
+            errorDiv.style.display = 'block';
             }
 
             function toggleAutomobileOptions() {
-                var transportType = document.getElementById('transportType').value;
-                var isAutomobile = transportType === 'car' || transportType === 'truck';
-                document.getElementById('traffic').style.display = isAutomobile ? 'inline' : 'none';
-                document.getElementById('fuelType').style.display = isAutomobile ? 'block' : 'none';
-                document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
-                document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
+            var transportType = document.getElementById('transportType').value;
+            var isAutomobile = transportType === 'car' || transportType === 'truck';
+            document.getElementById('traffic').style.display = isAutomobile ? 'inline' : 'none';
+            document.getElementById('fuelType').style.display = isAutomobile ? 'block' : 'none';
+            document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
+            document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
+            }
+
+            function saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, fuelConsumption) {
+            var travelData = {
+                startLocation: startLocation,
+                endLocation: endLocation,
+                distance: distance,
+                duration: duration,
+                co2Emission: co2Emission,
+                fuelConsumption: fuelConsumption
+            };
+            document.cookie = "travelData=" + JSON.stringify(travelData) + "; path=/";
             }
 
             window.onload = function() {
-                checkParentPage();
-                toggleAutomobileOptions();
-                document.getElementById('transportType').addEventListener('change', toggleAutomobileOptions);
+            checkParentPage();
+            toggleAutomobileOptions();
+            document.getElementById('transportType').addEventListener('change', toggleAutomobileOptions);
             };
         </script>
     </body>
