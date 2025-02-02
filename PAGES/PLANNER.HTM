@@ -188,6 +188,7 @@
                                             var ecoScore = calculateEcoScore(routeData);
                                             var distance = (routeData.routes[0].sections[0].summary.length / 1000).toFixed(1);
                                             var duration = (routeData.routes[0].sections[0].summary.duration / 60).toFixed(1);
+                                            var mode = routeData.routes[0].sections[0].transport.mode;
                                             var co2Emission = routeData.routes[0].sections[0].summary.co2Emission ? routeData.routes[0].sections[0].summary.co2Emission.toFixed(1) : 0;
                                             var fuelConsumption = routeData.routes[0].sections[0].summary.consumption ? routeData.routes[0].sections[0].summary.consumption.toFixed(1) : 0;
                                             document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
@@ -201,7 +202,7 @@
                                             updateResultBar('durationBar', duration, 1440);
                                             updateResultBar('co2EmissionBar', co2Emission, 1000);
                                             updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-                                            saveTravelDataToCookie(startLocation, endLocation, document.getElementById('transportType').value, distance, duration, co2Emission, ecoScore);
+                                            saveTravelDataToCookie(startLocation, endLocation, mode, distance, duration, co2Emission, ecoScore);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
                                         }
