@@ -218,3 +218,7 @@ form {
 #darkModeLabel{
     display: none;
 }
+#privacy {
+    margin-bottom: 0px;
+    font-size: 18px;
+}
