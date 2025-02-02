@@ -21,13 +21,11 @@
                 var darkModeEnabled = getCookie("darkMode") === "true";
                 var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
                 document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
-                document.getElementById("darkMode").checked = darkModeEnabled;
             }
 
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
-                    document.getElementById("darkMode").style.display = "none";
                 } else {
                     toggleDarkMode();
                 }
