@@ -16,32 +16,24 @@
                 }
                 return null;
             }
-
-            function toggleDarkMode() {
-                var darkModeEnabled = getCookie("darkMode") === "true";
-                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
-                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
-            }
-
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                 } else {
-                    toggleDarkMode();
+                    var darkModeEnabled = getCookie("darkMode") === "true";
+                    var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                    document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
                 }
             }
-
             function isValidDateTime(dateTime) {
                 var regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
                 return regex.test(dateTime);
             }
-
             function displayError(message) {
                 var errorDiv = document.getElementById('error');
                 errorDiv.innerText = message;
                 errorDiv.style.display = 'block';
             }
-
             function toggleAutomobileOptions() {
                 var transportType = document.getElementById('transportType').value;
                 var isAutomobile = transportType === 'car' || transportType === 'truck';
@@ -50,7 +42,6 @@
                 document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
                 document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
             }
-
             window.onload = function() {
                 checkParentPage();
                 toggleAutomobileOptions();
@@ -123,7 +114,6 @@
                 var fuelType = document.getElementById('fuelType').value;
                 var includeTraffic = document.getElementById('traffic').checked;
                 document.getElementById('error').style.display = 'none';
-
                 function getGeocode(location, callback) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', 'https://geocode.search.hereapi.com/v1/geocode?q=' + encodeURIComponent(location) + '&apiKey=' + apiKey, true);
@@ -146,7 +136,6 @@
                     };
                     xhr.send();
                 }
-
                 function getRoute() {
                     getGeocode(startLocation, function(startCoords) {
                         getGeocode(endLocation, function(endCoords) {
@@ -166,9 +155,7 @@
                                 routeURL += '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1';
                             }
                             routeURL += '&apiKey=' + apiKey;
-
                             console.log('Request URL:', routeURL); // Log the request URL for debugging
-
                             var xhr = new XMLHttpRequest();
                             xhr.open('GET', routeURL, true);
                             xhr.onreadystatechange = function() {
@@ -187,14 +174,12 @@
                                             document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
                                             document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
                                             document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' liters';
-
                                             // Update graphical representation
                                             updateResultBar('ecoScoreBar', ecoScore, 100);
                                             updateResultBar('distanceBar', distance, 1280);
                                             //updateResultBar('durationBar', duration, 100);
                                             //updateResultBar('co2EmissionBar', co2Emission, 100);
                                             //updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-
                                             saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, fuelConsumption);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
@@ -211,28 +196,22 @@
                         });
                     });
                 }
-
                 getRoute();
             };
-
             function updateResultBar(barId, value, maxValue) {
                 var bar = document.getElementById(barId);
                 var percentage = (value / maxValue) * 100;
                 bar.style.width = percentage + '%';
                 bar.innerText = value;
             }
-
             function calculateEcoScore(routeData) {
                 if (!routeData || !routeData.routes || !routeData.routes[0] || !routeData.routes[0].sections || !routeData.routes[0].sections[0] || !routeData.routes[0].sections[0].summary || !routeData.routes[0].sections[0].summary.length) {
                     return "N/A";
                 }
-
                 var distance = routeData.routes[0].sections[0].summary.length / 1000;
                 var transportType = document.getElementById('transportType').value;
                 var fuelType = document.getElementById('fuelType').value;
-
                 var score = 100;
-
                 if (transportType === 'car' || transportType === 'taxi' || transportType === 'truck') {
                     score -= 40;
                 } else if (transportType === 'bus' || transportType === 'scooter') {
@@ -240,7 +219,6 @@
                 } else if (transportType === 'bicycle' || transportType === 'pedestrian') {
                     score += 0;
                 }
-
                 if (fuelType === 'diesel') {
                     score -= 20;
                 } else if (fuelType === 'gasoline') {
@@ -248,13 +226,11 @@
                 } else if (fuelType === 'electric') {
                     score += 0;
                 }
-
                 if (distance > 1280) {
                     score -= 40;
                 } else if (distance > 0) {
                     score -= Math.round(5 * (Math.log(distance / 10) / Math.log(2)));
                 }
-
                 return score;
             }
         </script>

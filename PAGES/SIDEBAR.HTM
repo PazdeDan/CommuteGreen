@@ -6,7 +6,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link rel="stylesheet" type="text/css" href="CSS/DEFAULT.CSS" id="themeStylesheet">
-        <script type="text/javascript" src="JSHASHES.JS"></script>
         <script type="text/javascript">
             function getCookie(name) {
                 var nameEQ = name + "=";
@@ -66,12 +65,6 @@
                     document.getElementById("cookieWarning").style.display = "block";
                 }
             }
-            function toggleDarkMode() {
-                var darkModeEnabled = getCookie("darkMode") === "true";
-                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
-                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
-                document.getElementById("darkMode").checked = darkModeEnabled;
-            }
             function deleteAllCookies() {
                 if (confirm("Are you sure you want to delete all cookies?")) {
                     var cookies = document.cookie.split(";");
@@ -89,10 +82,12 @@
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                     document.getElementById("darkMode").style.display = "none";
                 } else {
-                    toggleDarkMode();
+                    var darkModeEnabled = getCookie("darkMode") === "true";
+                    var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                    document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
+                    document.getElementById("darkMode").checked = darkModeEnabled;
                 }
             }
-
             window.onload = function() {
                 checkApiKey();
                 checkCookiesEnabled();

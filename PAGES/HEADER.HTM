@@ -15,13 +15,6 @@
                 }
                 return null;
             }
-
-            function toggleDarkMode() {
-                var darkModeEnabled = getCookie("darkMode") === "true";
-                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
-                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
-            }
-
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
@@ -29,10 +22,11 @@
                     document.getElementById("dlogo").style.display = "none";
                 } else {
                     document.getElementById("mlogo").style.display = "none";
-                    toggleDarkMode();
+                    var darkModeEnabled = getCookie("darkMode") === "true";
+                    var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                    document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
                 }
             }
-
             function toggleSidebar() {
                 var dualFrame = window.top.document.getElementById('dualframe');
                 if (dualFrame.cols === "100%, 0%") {
@@ -41,7 +35,6 @@
                     dualFrame.cols = "100%, 0%";
                 }
             }
-
             window.onload = function() {
                 checkParentPage();
             };

@@ -16,21 +16,17 @@
                 }
                 return null;
             }
-
-            function toggleDarkMode() {
-                var darkModeEnabled = getCookie("darkMode") === "true";
-                var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
-                document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
-            }
-
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
+                    document.getElementById("davatar").style.display = "none";
                 } else {
-                    toggleDarkMode();
+                    document.getElementById("mavatar").style.display = "none";
+                    var darkModeEnabled = getCookie("darkMode") === "true";
+                    var stylesheet = darkModeEnabled ? "CSS/ACCESS.CSS" : "CSS/DEFAULT.CSS";
+                    document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
                 }
             }
-
             window.onload = function() {
                 checkParentPage();
             };
@@ -42,14 +38,12 @@
             var travelData = getCookie("travelData");
             return travelData ? JSON.parse(travelData) : [];
         }
-
         function displayTravelData() {
             var travelData = getTravelData();
             if (travelData.length === 0) {
                 document.getElementById("travelDataContainer").innerHTML = "<p>No travel data available.</p>";
                 return;
             }
-
             var table = "<table><tr><th>Date</th><th>Distance</th><th>Mode</th></tr>";
             for (var i = 0; i < travelData.length; i++) {
                 table += "<tr><td>" + travelData[i].date + "</td><td>" + travelData[i].distance + "</td><td>" + travelData[i].mode + "</td></tr>";
@@ -57,13 +51,11 @@
             table += "</table>";
             document.getElementById("travelDataContainer").innerHTML = table;
         }
-
         window.onload = function() {
             checkParentPage();
             displayTravelData();
         };
     </script>
-
     <div id="travelDataContainer"></div>
     </body>
 </html>
