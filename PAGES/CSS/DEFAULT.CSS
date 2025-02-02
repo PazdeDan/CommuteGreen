@@ -128,3 +128,7 @@ label {
 }
 .fuel-consumption {
     background-color: purple;
+}
+#darkModeLabel{
+    display: inline;
+}

@@ -221,3 +221,7 @@ form {
 }
 .fuel-consumption {
     background-color: purple;
+}
+#darkModeLabel{
+    display: none;
+}
