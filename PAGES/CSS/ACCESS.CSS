@@ -103,8 +103,15 @@ label {
 #warning {
     color: red;
 }
-#contact {
+#contact, #contactLink {
     padding-left: 20px;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    text-align: left;
+}
+#contactLink:hover {
+    text-decoration: underline;
 }
 
 ::-webkit-scrollbar {

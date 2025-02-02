@@ -127,9 +127,15 @@ label {
     margin-top: 20px;
 }
 
-#contact {
-    font-size: 48px;
+#contact, #contactLink {
     padding-left: 20px;
+    font-size: 48px;
+    color: black;
+    text-decoration: none;
+    text-align: left;
+}
+#contactLink:hover {
+    text-decoration: underline;
 }
 #hamburger {
     display: none;
