@@ -24,10 +24,19 @@
                 document.cookie = name + "=" + value + expires + "; path=/";
             }
             function validateApiKey(inputKey, callback) {
-                var SHA256 = new Hashes.SHA256();
-                var realKeyHash = '163c2e98be468ca0aa21ffee3868ddc488847124e591c5ab6baf70761aaffdbd';
-                var inputKeyHash = SHA256.hex(inputKey);
-                callback(inputKeyHash === realKeyHash);
+                var xhr = new XMLHttpRequest();
+                var url = `https://geocode.search.hereapi.com/v1/geocode?q=Berlin&apiKey=${inputKey}`;
+                xhr.open("GET", url, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    }
+                };
+                xhr.send();
             }
             function checkApiKey() {
                 var apiKey = getCookie("apiKey");
