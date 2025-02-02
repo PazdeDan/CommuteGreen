@@ -187,3 +187,37 @@ form {
 #delcookies {
     margin-top: 100px;
 }
+
+.result-bar {
+    width: 100%;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px 0;
+    position: relative;
+}
+.result-bar span {
+    display: block;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.eco-score {
+    background-color: green;
+}
+.distance {
+    background-color: blue;
+}
+.duration {
+    background-color: orange;
+}
+.co2-emission {
+    background-color: red;
+}
+.fuel-consumption {
+    background-color: purple;
