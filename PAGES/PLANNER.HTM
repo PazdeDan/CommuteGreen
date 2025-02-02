@@ -16,6 +16,12 @@
                 }
                 return null;
             }
+            function setCookie(name, value, days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
             function checkParentPage() {
                 if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
@@ -41,6 +47,20 @@
                 document.getElementById('fuelType').style.display = isAutomobile ? 'block' : 'none';
                 document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
                 document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
+            }
+            function saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, ecoScore) {
+                var travelData = getCookie("travelData");
+                travelData = travelData ? JSON.parse(travelData) : [];
+                var newEntry = {
+                    startLocation: startLocation,
+                    endLocation: endLocation,
+                    distance: distance,
+                    duration: duration,
+                    co2Emission: co2Emission,
+                    ecoScore: ecoScore
+                };
+                travelData.push(newEntry);
+                setCookie("travelData", JSON.stringify(travelData), 7);
             }
             window.onload = function() {
                 checkParentPage();
@@ -180,7 +200,7 @@
                                             //updateResultBar('durationBar', duration, 100);
                                             //updateResultBar('co2EmissionBar', co2Emission, 100);
                                             //updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-                                            saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, fuelConsumption);
+                                            saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, ecoScore);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
                                         }
