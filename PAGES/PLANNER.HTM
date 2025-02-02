@@ -48,12 +48,13 @@
                 document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
                 document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
             }
-            function saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, ecoScore) {
+            function saveTravelDataToCookie(startLocation, endLocation, mode, distance, duration, co2Emission, ecoScore) {
                 var travelData = getCookie("travelData");
                 travelData = travelData ? JSON.parse(travelData) : [];
                 var newEntry = {
                     startLocation: startLocation,
                     endLocation: endLocation,
+                    mode: mode,
                     distance: distance,
                     duration: duration,
                     co2Emission: co2Emission,
@@ -187,20 +188,20 @@
                                             var ecoScore = calculateEcoScore(routeData);
                                             var distance = (routeData.routes[0].sections[0].summary.length / 1000).toFixed(1);
                                             var duration = (routeData.routes[0].sections[0].summary.duration / 60).toFixed(1);
-                                            var co2Emission = routeData.routes[0].sections[0].summary.co2Emission.toFixed(1);
-                                            var fuelConsumption = routeData.routes[0].sections[0].summary.consumption.toFixed(1);
+                                            var co2Emission = routeData.routes[0].sections[0].summary.co2Emission ? routeData.routes[0].sections[0].summary.co2Emission.toFixed(1) : 0;
+                                            var fuelConsumption = routeData.routes[0].sections[0].summary.consumption ? routeData.routes[0].sections[0].summary.consumption.toFixed(1) : 0;
                                             document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
                                             document.getElementById('distance').innerText = 'Distance: ' + distance + ' km';
                                             document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
                                             document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
-                                            document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' liters';
+                                            document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' litres';
                                             // Update graphical representation
                                             updateResultBar('ecoScoreBar', ecoScore, 100);
                                             updateResultBar('distanceBar', distance, 1280);
-                                            //updateResultBar('durationBar', duration, 100);
-                                            //updateResultBar('co2EmissionBar', co2Emission, 100);
-                                            //updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-                                            saveTravelDataToCookie(startLocation, endLocation, distance, duration, co2Emission, ecoScore);
+                                            updateResultBar('durationBar', duration, 1440);
+                                            updateResultBar('co2EmissionBar', co2Emission, 1000);
+                                            updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
+                                            saveTravelDataToCookie(startLocation, endLocation, document.getElementById('transportType').value, distance, duration, co2Emission, ecoScore);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
                                         }
