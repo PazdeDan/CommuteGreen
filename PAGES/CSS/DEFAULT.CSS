@@ -144,3 +144,8 @@ label {
     margin-bottom: 0px;
     font-size: 12px;
 }
+.imgcaption {
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 10px;
+}

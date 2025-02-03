@@ -224,3 +224,8 @@ form {
     margin-bottom: 0px;
     font-size: 18px;
 }
+.imgcaption {
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 10px;
+}
