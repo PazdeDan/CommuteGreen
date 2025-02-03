@@ -129,17 +129,18 @@ label {
 }
 .result-bar {
     width: 100%;
-    background-color: #f3f3f3;
+    background-color: #1f1f1f;
     border: 1px solid #ccc;
-    border-radius: 0px;
+    height: 40px;
+    border-radius: 10px;
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     position: relative;
 }
 .result-bar span {
     display: block;
     height: 40px;
-    border-radius: 0px;
+    border-radius: 10px;
     text-align: center;
     line-height: 40px;
     color: white;
