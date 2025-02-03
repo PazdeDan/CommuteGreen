@@ -48,13 +48,14 @@
                 document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
                 document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
             }
-            function saveTravelDataToCookie(startLocation, endLocation, mode, distance, duration, co2Emission, ecoScore) {
+            function saveTravelDataToCookie(startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore) {
                 var travelData = getCookie("travelData");
                 travelData = travelData ? JSON.parse(travelData) : [];
                 var newEntry = {
                     startLocation: startLocation,
                     endLocation: endLocation,
                     mode: mode,
+                    fuelType: fuelType,
                     distance: distance,
                     duration: duration,
                     co2Emission: co2Emission,
@@ -96,8 +97,10 @@
             <label for="fuelType">Fuel Type:</label>
             <select id="fuelType" name="fuelType" class="formui">
                 <option value="diesel">Diesel</option>
-                <option value="gasoline">Gasoline</option>
+                <option value="petrol">Petrol</option>
                 <option value="electric">Electric</option>
+                <option value="lpg">LPG</option>
+                <option value="cng">CNG</option>
             </select>
             <p id="privacy"><i>By clicking the button below you agree to <a href="https://legal.here.com/en-gb/privacy">Here Technologies' Privacy Policy</a>.</i></p>
             <input type="submit" id="button" value="Calculate Route" class="formui">
@@ -105,23 +108,23 @@
         <div id="error" style="display:none; color:red;"></div>
         <div id="results">
             <h2>Eco-Friendliness Results</h2>
-            <p id="ecoScore">Eco-Score: Results will appear here...</p>
+            <p>Eco-Score:</p>
             <div class="result-bar">
                 <span id="ecoScoreBar" class="eco-score"></span>
             </div>
-            <p id="distance">Distance: Results will appear here...</p>
+            <p>Distance:</p>
             <div class="result-bar">
                 <span id="distanceBar" class="distance"></span>
             </div>
-            <p id="duration">Duration: Results will appear here...</p>
+            <p>Duration:</p>
             <div class="result-bar">
                 <span id="durationBar" class="duration"></span>
             </div>
-            <p id="co2Emission">CO2 Emissions: Results will appear here...</p>
+            <p>CO2 Emissions:</p>
             <div class="result-bar">
                 <span id="co2EmissionBar" class="co2-emission"></span>
             </div>
-            <p id="fuelConsumption">Fuel Consumption: Results will appear here...</p>
+            <p>Fuel Consumption:</p>
             <div class="result-bar">
                 <span id="fuelConsumptionBar" class="fuel-consumption"></span>
             </div>
@@ -192,18 +195,13 @@
                                             var mode = routeData.routes[0].sections[0].transport.mode;
                                             var co2Emission = routeData.routes[0].sections[0].summary.co2Emission ? routeData.routes[0].sections[0].summary.co2Emission.toFixed(1) : 0;
                                             var fuelConsumption = routeData.routes[0].sections[0].summary.consumption ? routeData.routes[0].sections[0].summary.consumption.toFixed(1) : 0;
-                                            document.getElementById('ecoScore').innerText = 'Eco-Score: ' + ecoScore;
-                                            document.getElementById('distance').innerText = 'Distance: ' + distance + ' km';
-                                            document.getElementById('duration').innerText = 'Duration: ' + duration + ' minutes';
-                                            document.getElementById('co2Emission').innerText = 'CO2 Emissions: ' + co2Emission + ' kg';
-                                            document.getElementById('fuelConsumption').innerText = 'Fuel Consumption: ' + fuelConsumption + ' litres';
                                             // Update graphical representation
                                             updateResultBar('ecoScoreBar', ecoScore, 100);
                                             updateResultBar('distanceBar', distance, 1280);
                                             updateResultBar('durationBar', duration, 1440);
                                             updateResultBar('co2EmissionBar', co2Emission, 1000);
                                             updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-                                            saveTravelDataToCookie(startLocation, endLocation, mode, distance, duration, co2Emission, ecoScore);
+                                            saveTravelDataToCookie(startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
                                         }
