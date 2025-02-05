@@ -24,7 +24,7 @@
             }
             function validateApiKey(inputKey, callback) {
                 var xhr = new XMLHttpRequest();
-                var url = `https://geocode.search.hereapi.com/v1/geocode?q=Berlin&apiKey=${inputKey}`;
+                var url = 'https://geocode.search.hereapi.com/v1/geocode?q=Berlin&apiKey=' + inputKey;
                 xhr.open("GET", url, true);
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
@@ -78,7 +78,7 @@
                 }
             }
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                if (window.top.location.pathname.indexOf("MOBILE.HTM") !== -1) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                     document.getElementById("darkMode").style.display = "none";
                 } else {

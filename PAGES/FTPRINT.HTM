@@ -17,7 +17,7 @@
                 return null;
             }
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                if (window.top.location.pathname.indexOf("MOBILE.HTM") !== -1) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                 } else {
                     var darkModeEnabled = getCookie("darkMode") === "true";
@@ -25,12 +25,10 @@
                     document.getElementById("themeStylesheet").setAttribute("href", stylesheet);
                 }
             }
-        </script>
-    </head>
-    <body class="content">
-        <div id="travelDataContainer"></div>
-        <p style="font-size: 14px;"><i><b>Note:</b> The CO2 emissions for public transport vehicles are returned as 0 from the API, as they depend on the vehicle and the exact journey.</i></p>
-        <script type="text/javascript">
+            window.onload = function() {
+                checkParentPage();
+                displayTravelData();
+            };
             function getTravelData() {
                 var travelData = getCookie("travelData");
                 return travelData ? JSON.parse(travelData) : [];
@@ -49,10 +47,10 @@
                 table += "</table>";
                 document.getElementById("travelDataContainer").innerHTML = table;
             }
-            window.onload = function() {
-                checkParentPage();
-                displayTravelData();
-            };
         </script>
+    </head>
+    <body class="content">
+        <div id="travelDataContainer"></div>
+        <p style="font-size: 14px;"><i><b>Note:</b> The CO2 emissions for public transport vehicles are returned as 0 from the API, as they depend on the vehicle and the exact journey.</i></p>
     </body>
 </html>

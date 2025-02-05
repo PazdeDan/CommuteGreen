@@ -16,7 +16,7 @@
                 return null;
             }
             function checkParentPage() {
-                if (window.top.location.pathname.endsWith("MOBILE.HTM")) {
+                if (window.top.location.pathname.indexOf("MOBILE.HTM") !== -1) {
                     document.getElementById("themeStylesheet").setAttribute("href", "CSS/MOBILE.CSS");
                     document.getElementById("davatar").style.display = "none";
                 } else {
