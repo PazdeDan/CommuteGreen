@@ -88,12 +88,6 @@
             </div>
             <label for="traffic" style="display: inline;">Include Traffic:</label>
             <input type="checkbox" id="traffic" name="traffic" class="formui">
-            <label for="startLocation">Start Location:</label>
-            <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point" class="formui">
-            <label for="endLocation">End Location:</label>
-            <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination" class="formui">
-            <label for="departureTime">Departure Time:</label>
-            <input type="text" id="departureTime" name="departureTime" placeholder="YYYY-MM-DDTHH:MM:SS" class="formui">
             <label for="fuelType">Fuel Type:</label>
             <select id="fuelType" name="fuelType" class="formui">
                 <option value="diesel">Diesel</option>
@@ -102,6 +96,12 @@
                 <option value="lpg">LPG</option>
                 <option value="cng">CNG</option>
             </select>
+            <label for="startLocation">Start Location:</label>
+            <input type="text" id="startLocation" name="startLocation" placeholder="Enter starting point" class="formui">
+            <label for="endLocation">End Location:</label>
+            <input type="text" id="endLocation" name="endLocation" placeholder="Enter destination" class="formui">
+            <label for="departureTime">Departure Time:</label>
+            <input type="text" id="departureTime" name="departureTime" placeholder="YYYY-MM-DDTHH:MM:SS" class="formui">
             <p id="privacy"><i>By clicking the button below you agree to <a href="https://legal.here.com/en-gb/privacy">Here Technologies' Privacy Policy</a>.</i></p>
             <input type="submit" id="button" value="Calculate Route" class="formui">
         </form>
@@ -176,7 +176,11 @@
                                 routeURL += '&traffic[mode]=disabled';
                             }
                             if (document.getElementById('transportType').value === 'car' || document.getElementById('transportType').value === 'truck') {
-                                routeURL += '&fuel[type]=' + fuelType;
+                                if (fuelType === 'electric') {
+                                    routeURL += '&fuel[type]=petrol';
+                                } else {
+                                    routeURL += '&fuel[type]=' + fuelType;
+                                }
                                 routeURL += '&fuel[freeFlowSpeedTable]=10,0.095,20,0.072,30,0.058,40,0.049,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[trafficSpeedTable]=10,0.012,20,0.09,30,0.07,40,0.06,50,0.045,60,0.043,70,0.042,80,0.043,90,0.045,100,0.047,110,0.05,120,0.052,130,0.055&fuel[additionalConsumption]=0.1&fuel[ascent]=0.1';
                             }
                             routeURL += '&apiKey=' + apiKey;
@@ -193,8 +197,13 @@
                                             var distance = (routeData.routes[0].sections[0].summary.length / 1000).toFixed(1);
                                             var duration = (routeData.routes[0].sections[0].summary.duration / 60).toFixed(1);
                                             var mode = routeData.routes[0].sections[0].transport.mode;
-                                            var co2Emission = routeData.routes[0].sections[0].summary.co2Emission ? routeData.routes[0].sections[0].summary.co2Emission.toFixed(1) : 0;
-                                            var fuelConsumption = routeData.routes[0].sections[0].summary.consumption ? routeData.routes[0].sections[0].summary.consumption.toFixed(1) : 0;
+                                            if (fuelType === 'electric') {
+                                                var co2Emission = 0;
+                                                var fuelConsumption = 0;
+                                            } else {
+                                                var co2Emission = routeData.routes[0].sections[0].summary.co2Emission ? routeData.routes[0].sections[0].summary.co2Emission.toFixed(1) : 0;
+                                                var fuelConsumption = routeData.routes[0].sections[0].summary.consumption ? routeData.routes[0].sections[0].summary.consumption.toFixed(1) : 0;
+                                            }
                                             // Update graphical representation
                                             updateResultBar('ecoScoreBar', ecoScore, 100);
                                             updateResultBar('distanceBar', distance, 1280);

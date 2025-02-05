@@ -185,18 +185,18 @@ form {
     width: 100%;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
-    height: 40px;
+    height: 80px;
     border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     position: relative;
 }
 .result-bar span {
     display: block;
-    height: 40px;
+    height: 80px;
     border-radius: 10px;
     text-align: center;
-    line-height: 40px;
+    line-height: 80px;
     color: white;
     position: absolute;
     top: 0;
@@ -222,10 +222,13 @@ form {
 }
 #privacy {
     margin-bottom: 0px;
-    font-size: 18px;
+    font-size: 24px;
 }
 .imgcaption {
-    font-size: 12px;
+    font-size: 24px;
     text-align: right;
     margin-bottom: 10px;
+}
+#ftprintNote {
+    font-size: 24px;
 }
