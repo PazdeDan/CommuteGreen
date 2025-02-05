@@ -48,10 +48,11 @@
                 document.querySelector('label[for="traffic"]').style.display = isAutomobile ? 'inline' : 'none';
                 document.querySelector('label[for="fuelType"]').style.display = isAutomobile ? 'block' : 'none';
             }
-            function saveTravelDataToCookie(startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore) {
+            function saveTravelDataToCookie(date, startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore) {
                 var travelData = getCookie("travelData");
                 travelData = travelData ? JSON.parse(travelData) : [];
                 var newEntry = {
+                    date: date,
                     startLocation: startLocation,
                     endLocation: endLocation,
                     mode: mode,
@@ -77,9 +78,9 @@
             <div>
                 <label for="transportType">Transport Type:</label>
                 <select id="transportType" name="transportType" class="formui">
+                    <option value="car">Car</option>
                     <option value="bicycle">Bicycle</option>
                     <option value="bus">Public Transit</option>
-                    <option value="car">Car</option>
                     <option value="pedestrian">Walking</option>
                     <option value="scooter">Scooter</option>
                     <option value="taxi">Taxi</option>
@@ -197,6 +198,7 @@
                                             var distance = (routeData.routes[0].sections[0].summary.length / 1000).toFixed(1);
                                             var duration = (routeData.routes[0].sections[0].summary.duration / 60).toFixed(1);
                                             var mode = routeData.routes[0].sections[0].transport.mode;
+                                            var date = new Date().toLocaleDateString();
                                             if (fuelType === 'electric') {
                                                 var co2Emission = 0;
                                                 var fuelConsumption = 0;
@@ -210,7 +212,7 @@
                                             updateResultBar('durationBar', duration, 1440);
                                             updateResultBar('co2EmissionBar', co2Emission, 1000);
                                             updateResultBar('fuelConsumptionBar', fuelConsumption, 100);
-                                            saveTravelDataToCookie(startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore);
+                                            saveTravelDataToCookie(date, startLocation, endLocation, mode, fuelType, distance, duration, co2Emission, ecoScore);
                                         } else {
                                             displayError('Routing error: Unexpected response structure.');
                                         }
