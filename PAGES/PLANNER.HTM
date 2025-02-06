@@ -256,8 +256,12 @@
                 }
                 if (fuelType === 'diesel') {
                     score -= 20;
-                } else if (fuelType === 'gasoline') {
+                } else if (fuelType === 'petrol') {
                     score -= 15;
+                } else if (fuelType === 'lpg') {
+                    score -= 10;
+                } else if (fuelType === 'cng') {
+                    score -= 5;
                 } else if (fuelType === 'electric') {
                     score += 0;
                 }
